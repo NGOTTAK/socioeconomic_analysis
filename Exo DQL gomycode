@@ -1,0 +1,35 @@
+SELECT TOP (1000) [COMMUNITY_AREA_NUMBER]
+      ,[COMMUNITY_AREA_NAME]
+      ,[PERCENT_OF_HOUSING_CROWDED]
+      ,[PERCENT_HOUSEHOLDS_BELOW_POVERTY]
+      ,[PERCENT_AGED_16_UNEMPLOYED]
+      ,[PERCENT_AGED_25_WITHOUT_HIGH_SCHOOL_DIPLOMA]
+      ,[PERCENT_AGED_UNDER_18_OR_OVER_64]
+      ,[PER_CAPITA_INCOME]
+      ,[HARDSHIP_INDEX]
+  FROM [base moyeba].[dbo].[chicago]
+ go
+ --probleme 1: Problème 1 : combien de lignes y a-t-il dans l’ensemble de données ?
+ select COUNT(*)
+ from chicago
+ go
+ ---Problème 2 : combien de zones communautaires de Chicago ont un indice de difficultés supérieur à 50,0 ?
+ select count (COMMUNITY_AREA_NUMBER) as "total communauté"
+ from chicago
+ where HARDSHIP_INDEX>50;
+go
+--Problème 3 : Quelle est la valeur maximale de l’indice de difficultés dans cet ensemble de données ?
+select MAX(HARDSHIP_INDEX)
+from chicago;
+go 
+---- Problème 4 : Quelle zone communautaire à l'indice de difficultés le plus élevé ?
+select
+COMMUNITY_AREA_NAME
+from chicago
+where HARDSHIP_INDEX = (select MAX(HARDSHIP_INDEX)
+from chicago);
+ 
+ ----Problème 5 : Quelles zones communautaires de Chicago ont un revenu par habitant supérieur à 60 000 $ ?
+ select COMMUNITY_AREA_NAME
+ from chicago
+ where PER_CAPITA_INCOME > 60000;
